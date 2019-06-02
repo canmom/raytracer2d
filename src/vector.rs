@@ -130,10 +130,6 @@ impl<T: Mul<U, Output = S>, S: Add, U: Copy> Dot<Vec2<U>> for Vec2<T> {
     }
 }
 
-pub fn dot<T: Dot<U>, U> (a: T, b: U) -> <T as Dot<U>>::Output {
-    a.dot(b)
-}
-
 //3D vector
 #[derive(Copy,Clone,Debug)]
 pub struct Vec3<T> {
@@ -281,6 +277,21 @@ impl<T: Mul<U, Output = S> + Copy, S: Sub, U: Copy> Cross<Vec3<U>> for Vec3<T> {
         }
     }
 }
+
+pub trait Clamp<RHS> {
+    fn clamp (&self, max:RHS) -> Self;
+}
+
+impl<T: PartialOrd + Copy> Clamp<T> for Vec3<T> {
+    fn clamp (&self, max: T) -> Self {
+        Vec3 {
+            x: {if self.x > max {max} else {self.x}},
+            y: {if self.y > max {max} else {self.y}},
+            z: {if self.z > max {max} else {self.z}},
+        }
+    }
+}
+
 // clashes with core implementation
 // impl<T, S: From<T> + T> From<Vec2<T>> for Vec2<S> {
 //     fn from(prev: Vec2<T>) -> Self {
@@ -290,3 +301,8 @@ impl<T: Mul<U, Output = S> + Copy, S: Sub, U: Copy> Cross<Vec3<U>> for Vec3<T> {
 //         }
 //     }
 // }
+
+//functions
+pub fn dot<T: Dot<U>, U> (a: T, b: U) -> <T as Dot<U>>::Output {
+    a.dot(b)
+}

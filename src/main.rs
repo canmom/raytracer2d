@@ -1,17 +1,18 @@
 mod vector;
 mod ray;
+mod colour;
 
 use piston_window::{PistonWindow, EventLoop, WindowSettings, Texture, TextureSettings};
-use image::{ImageBuffer, Rgba, Rgb};
-use crate::vector::{Vec2, Vec3};
+use image::{ImageBuffer, Rgba};
+use crate::vector::{Vec2};
+use crate::colour::{colour, frag_to_pixel};
 use crate::ray::{Ray, Light};
 
 const WIDTH: u32 = 1280;
 const HEIGHT: u32 = 720;
-const CLAMP_MAX: f64 = 1.0;
 
 fn main() {
-    let frame_buffer = ImageBuffer::from_pixel(WIDTH, HEIGHT, Rgba([0,0,0,255]));
+    let mut frame_buffer = ImageBuffer::from_pixel(WIDTH, HEIGHT, Rgba([0,0,0,255]));
 
     let lights = vec![
         Light{
@@ -19,30 +20,24 @@ fn main() {
                 x: 0.5,
                 y: 0.2,
             },
-            col: Vec3 {
-                x: 1.0,
-                y: 0.0,
-                z: 0.0,
-            }
+            col: colour(1.0,0.0,0.0)
         }
     ];
 
-    for (x, y, pixel) in frame_buffer.enumerate_pixels() {
+    for (x, y, pixel) in frame_buffer.enumerate_pixels_mut() {
         let world_space_position = Vec2 {
             x: x as f64 / WIDTH as f64,
             y: y as f64 / WIDTH as f64,
         };
 
-        let mut colour = Vec3 {
-            x: 0.0,
-            y: 0.0,
-            z: 0.0,
-        };
+        let mut fragment = colour(0.0,0.0,0.0);
 
         for light in &lights {
             let ray_to = Ray::new(world_space_position, light);
-            colour += ray_to.shade();
+            fragment += ray_to.shade();
         }
+
+        *pixel = frag_to_pixel(fragment);
     }
 
     let mut window: PistonWindow =
