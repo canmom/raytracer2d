@@ -29,7 +29,7 @@ fn linear_to_srgb<F: Float> (lin: Vec3<F>) -> Vec3<F> {
 }
 
 pub fn frag_to_pixel (fragment: Vec3<f64>) -> Rgba<u8> {
-    let fragment = linear_to_srgb(fragment.clamp(CLAMP_MAX) / CLAMP_MAX)/* * 255 as f64*/;
+    let fragment = linear_to_srgb(fragment.clamp(CLAMP_MAX) / CLAMP_MAX)* 255 as f64;
     Rgba([
         fragment.x as u8,
         fragment.y as u8,

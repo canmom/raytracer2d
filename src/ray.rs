@@ -1,5 +1,7 @@
 use crate::vector::{Vec2, Vec3, dot};
 
+const FALLOFF_RATE: f64 = 16.0;
+
 #[derive(Debug)]
 pub struct Light {
     pub loc: Vec2<f64>,
@@ -26,6 +28,6 @@ impl<'a> Ray<'a> {
     }
 
     pub fn shade(&self) -> Vec3<f64> {
-        self.target.col / (self.length * self.length)
+        self.target.col / (FALLOFF_RATE * self.length * self.length + 1.0)
     }
 }
