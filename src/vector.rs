@@ -302,6 +302,20 @@ impl<T: PartialOrd + Copy> Clamp<T> for Vec3<T> {
 //     }
 // }
 
+pub trait Squared {
+    type Output;
+
+    fn squared(self) -> Self::Output;
+}
+
+impl<T: Dot + Copy> Squared for T {
+    type Output = <T as Dot>::Output;
+
+    fn squared(self) -> Self::Output {
+        self.dot(self)
+    }
+}
+
 //functions
 pub fn dot<T: Dot<U>, U> (a: T, b: U) -> <T as Dot<U>>::Output {
     a.dot(b)

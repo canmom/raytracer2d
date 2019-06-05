@@ -1,4 +1,4 @@
-use crate::vector::{Vec2, Vec3, dot};
+use crate::vector::{Vec2, Vec3};
 
 const FALLOFF_RATE: f64 = 16.0;
 
@@ -10,10 +10,10 @@ pub struct Light {
 
 #[derive(Debug)]
 pub struct Ray<'a> {
-    origin: Vec2<f64>,
-    dir: Vec2<f64>,
-    length: f64,
-    target: &'a Light,
+    pub origin: Vec2<f64>,
+    pub dir: Vec2<f64>,
+    pub length: f64,
+    pub target: &'a Light,
 }
 
 impl<'a> Ray<'a> {
