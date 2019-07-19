@@ -1,8 +1,9 @@
 use std::ops::{Add, AddAssign, Sub, SubAssign, Mul, MulAssign, Div, DivAssign, Rem, RemAssign, Neg};
 use float::Sqrt;
+use serde::{Serialize, Deserialize};
 
 //2D vector
-#[derive(Copy,Clone,Debug)]
+#[derive(Copy,Clone,Debug,Serialize,Deserialize)]
 pub struct Vec2<T> {
     pub x: T,
     pub y: T,
@@ -131,7 +132,7 @@ impl<T: Mul<U, Output = S>, S: Add, U: Copy> Dot<Vec2<U>> for Vec2<T> {
 }
 
 //3D vector
-#[derive(Copy,Clone,Debug)]
+#[derive(Copy,Clone,Debug,Serialize,Deserialize)]
 pub struct Vec3<T> {
     pub x: T,
     pub y: T,

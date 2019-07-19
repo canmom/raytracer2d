@@ -1,11 +1,12 @@
 use crate::vector::{Vec2,dot,Squared};
 use crate::ray::{Ray};
+use serde::{Serialize, Deserialize};
 
 pub trait Occludes {
     fn hit_by(&self, ray: &Ray) -> bool;
 }
 
-#[derive(Copy,Clone,Debug)]
+#[derive(Copy,Clone,Debug,Serialize,Deserialize)]
 pub struct Circle {
     pub centre: Vec2<f64>,
     pub radius: f64,

@@ -1,8 +1,9 @@
 use crate::vector::{Vec2, Vec3};
+use serde::{Serialize, Deserialize};
 
 const FALLOFF_RATE: f64 = 16.0;
 
-#[derive(Debug)]
+#[derive(Debug,Serialize,Deserialize)]
 pub struct Light {
     pub loc: Vec2<f64>,
     pub col: Vec3<f64>,
